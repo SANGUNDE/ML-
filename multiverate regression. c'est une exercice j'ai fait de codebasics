@@ -1,0 +1,33 @@
+import pandas as pd
+import math as mt
+from word2number import w2n
+from word2number.w2n import word_to_num
+from sklearn.linear_model import LinearRegression
+
+#importing the csv files from my computer.
+df = pd.read_csv("C:/Users/hp/Downloads/hiring.csv")
+
+#use the math module to convert the bool to an int
+the_mean = mt.floor(df['test_score(out of 10)'].mean())
+
+#fill the NaN with the mean for accurate reading unlike removing it
+df.fillna({'test_score(out of 10)': the_mean}, inplace= True)
+
+#Using the word2number module, convert the numbers from word to numeric.
+#you can use the format below
+df.fillna({'experience': 'zero'}, inplace=True )
+df['experience'] = df['experience'].apply(w2n.word_to_num)
+
+#when you are done cleaning your data, you can start making your model.
+X = df[['experience', 'test_score(out of 10)', 'interview_score(out of 10)']]
+y = df['salary($)']
+reg = LinearRegression()
+reg.fit(X, y)
+
+employ1 = reg.predict([[2, 9, 6]])
+employ2 = reg.predict([[12, 10, 10]])
+
+print(f'the first is {employ1}')
+print(f'the second is {employ2}')
+
+#thank for going through check the csv file for the dataset
