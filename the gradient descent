@@ -1,0 +1,24 @@
+import pandas as pd
+import math as mt
+
+df = pd.read_csv("C:/Users/hp/Downloads/test_scores.csv")
+
+def gradient_descent():
+    X = df[ 'math']
+    y = df[ 'cs']
+    numb_iterations = 100
+    learning_rate = 0.001
+    m_curr = b_curr = 0
+    n = len(X)
+
+    for epoch in range(numb_iterations):
+
+        y_predict = m_curr * X + b_curr
+        cost_function = 1/n * sum( [ mt.pow(val, 2)for val in (y - y_predict)])
+        Dev_m = -(2/n) * sum(y - y_predict)
+        Dev_b = 1/n * sum(y - y_predict)
+        m_curr = m_curr -learning_rate * Dev_m
+        b_curr = b_curr - learning_rate * Dev_b
+        print( "m {}, b {}, epoch{}, cost {} ".format(m_curr, b_curr, epoch, cost_function))
+
+gradient_descent()
